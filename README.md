@@ -49,16 +49,16 @@ check.py ntuple_qcd_170_300_phase1 --action resubmit
 
 once all the samples have a sufficient amount of succeeded jobs, you can start merging all the output files together. In principle each directory that was created on eos should also contain two .txt files: train_val_samples.txt and test_samples.txt. They list respectively the samples that are used for training (and validating during the training) and those used for the separate testing afterwards. We will now perform two merges: one for training (a mixture of ttbar and qcd) and one for testing (pure ttbar, but one could make one for pure QCD as well). The merging should be rather quick with the “parallel” version of the merger. Count in the order of two hours for the training samples (less for the limited testing on ttbar).
 
-For merging the training sample in batches of 400000 jets per file to a directory on eos called ‘<eos merged training directory>’ (put it next to the directories made for each sample individually), do:
+For merging the training sample in batches of 400000 jets per file to a directory on eos called ‘<eos_merged_training_directory>’ (put it next to the directories made for each sample individually), do:
 
 ```
-mergeSamples_parallel 400000 <eos merged training directory> ntuple_*/train_val_samples.txt
+mergeSamples_parallel 400000 <eos_merged_training_directory> ntuple_*/train_val_samples.txt
 ```
 
-For merging the testing (ttbar) sample in batches of 400000 jets per file to a directory called ‘<eos merged testing ttbar directory>’, do:
+For merging the testing (ttbar) sample in batches of 400000 jets per file to a directory called ‘<eos_merged_testing_ttbar_directory>’, do:
 
 ```
-mergeSamples_parallel 400000 <eos merged testing ttbar directory> ntuple_ttbar_phase1/test_samples.txt
+mergeSamples_parallel 400000 <eos_merged_testing_ttbar_directory> ntuple_ttbar_phase1/test_samples.txt
 ```
 
 now everything should be safely stored to eos. You can check the root files manually to see if all went well.
@@ -104,27 +104,27 @@ ssh tlab-gpu-nv-05
 cd DeepJet/environment
 source gpu_env.sh
 cd ../convertFromRoot
-python convertFromRoot.py –i <eos merged training directory>/train_val_samples.txt –o /data/<username>/<name of output directory to store numpy files> -c TrainData_deepCSV_PF
+python convertFromRoot.py –i <eos_merged_training_directory>/train_val_samples.txt –o /data/<username>/<name_of_output_directory_to_store_numpy_files> -c TrainData_deepCSV_PF
 ```
 
 Now also do it for the testing data. Notice that here you don’t need to specify the TrainData model (so you don't need to use -c), but instead you specify the “dataCollection.dc” file that was produced in your output directory of the previous step. Use for this purpose the --testdatafor argument:
 
 ```
-python convertFromRoot.py –i <eos merged testing ttbar directory>/test_samples.txt –o /data/<username>/<name of output directory to store testing numpy  files> --testdatafor /data/<username>/<name of output directory to store training numpy files>/dataCollection.dc
+python convertFromRoot.py –i <eos_merged_testing_ttbar_directory>/test_samples.txt –o /data/<username>/<name_of_output_directory_to_store_testing_numpy_files> --testdatafor /data/<username>/<name of output directory to store training numpy files>/dataCollection.dc
 ```
 
 Now the data are ready for the training. We will use for this example the DeepJet/Train/DeepJetTrain\_PF.py script which uses the network with the name “Dense\_model\_broad” located in DeepJet/modules/DeepJet\_models.py. I use nohup to run in the background. The training took around 10 hours for 100 epochs. The output of the training is stored in the defined output directory <outdir\_train>.
 
 ```
 cd ../Train
-nohup python –u DeepJetTrain_PF.py /data/<username>/<name of output directory to store training numpy files>/dataCollection.dc <outdir\_train>
+nohup python –u DeepJetTrain_PF.py /data/<username>/<name_of_output_directory_to_store_training_numpy_files>/dataCollection.dc <outdir\_train>
 ```
 
-Finally after the training is done you can find the losses in <name of output directory to store details of the training>/losses.log and the trained model with the lowest validation loss in <outdir\_train>/KERAS\_check\_best\_model.h5 
+Finally after the training is done you can find the losses in <outdir\_train>/losses.log and the trained model with the lowest validation loss in <outdir\_train>/KERAS\_check\_best\_model.h5 
 You can now run the testing on the pure ttbar with:
 
 ```
-python predict.py <name of output directory to store details of the training>/KERAS_check_best_model.h5 /data/<username>/<name of output directory to store testing numpy  files>/dataCollection.dc <outdir\_test>
+python predict.py <name_of_output_directory_to_store_details_of_the_training>/KERAS_check_best_model.h5 /data/<username>/<name_of_output_directory_to_store_testing_numpy_files>/dataCollection.dc <outdir\_test>
 ```
 
 This produces in <outdir\_test> a file named tree_association.txt that can be used to produce ROC curves with the scripts that can be found in DeepJet/Train/Plotting/
