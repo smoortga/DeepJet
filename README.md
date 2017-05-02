@@ -110,21 +110,21 @@ python convertFromRoot.py –i <eos_merged_training_directory>/train_val_samples
 Now also do it for the testing data. Notice that here you don’t need to specify the TrainData model (so you don't need to use -c), but instead you specify the “dataCollection.dc” file that was produced in your output directory of the previous step. Use for this purpose the --testdatafor argument:
 
 ```
-python convertFromRoot.py –i <eos_merged_testing_ttbar_directory>/test_samples.txt –o /data/<username>/<name_of_output_directory_to_store_testing_numpy_files> --testdatafor /data/<username>/<name of output directory to store training numpy files>/dataCollection.dc
+python convertFromRoot.py –i <eos_merged_testing_ttbar_directory>/test_samples.txt –o /data/<username>/<name_of_output_directory_to_store_testing_numpy_files> --testdatafor /data/<username>/<name_of_output_directory_to_store_training_numpy_files>/dataCollection.dc
 ```
 
 Now the data are ready for the training. We will use for this example the DeepJet/Train/DeepJetTrain\_PF.py script which uses the network with the name “Dense\_model\_broad” located in DeepJet/modules/DeepJet\_models.py. I use nohup to run in the background. The training took around 10 hours for 100 epochs. The output of the training is stored in the defined output directory <outdir\_train>.
 
 ```
 cd ../Train
-nohup python –u DeepJetTrain_PF.py /data/<username>/<name_of_output_directory_to_store_training_numpy_files>/dataCollection.dc <outdir\_train>
+nohup python –u DeepJetTrain_PF.py /data/<username>/<name_of_output_directory_to_store_training_numpy_files>/dataCollection.dc <outdir_train>
 ```
 
 Finally after the training is done you can find the losses in <outdir\_train>/losses.log and the trained model with the lowest validation loss in <outdir\_train>/KERAS\_check\_best\_model.h5 
 You can now run the testing on the pure ttbar with:
 
 ```
-python predict.py <name_of_output_directory_to_store_details_of_the_training>/KERAS_check_best_model.h5 /data/<username>/<name_of_output_directory_to_store_testing_numpy_files>/dataCollection.dc <outdir\_test>
+python predict.py <name_of_output_directory_to_store_details_of_the_training>/KERAS_check_best_model.h5 /data/<username>/<name_of_output_directory_to_store_testing_numpy_files>/dataCollection.dc <outdir_test>
 ```
 
 This produces in <outdir\_test> a file named tree_association.txt that can be used to produce ROC curves with the scripts that can be found in DeepJet/Train/Plotting/
