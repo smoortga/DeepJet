@@ -104,13 +104,13 @@ ssh tlab-gpu-nv-05
 cd DeepJet/environment
 source gpu_env.sh
 cd ../convertFromRoot
-python convertFromRoot.py –i <eos_merged_training_directory>/train_val_samples.txt –o /data/<username>/<name_of_output_directory_to_store_numpy_files> -c TrainData_deepCSV_PF
+python convertFromRoot.py –i <eos_merged_training_directory>/samples.txt –o /data/<username>/<name_of_output_directory_to_store_numpy_files> -c TrainData_deepCSV_PF
 ```
 
 Now also do it for the testing data. Notice that here you don’t need to specify the TrainData model (so you don't need to use -c), but instead you specify the “dataCollection.dc” file that was produced in your output directory of the previous step. Use for this purpose the --testdatafor argument:
 
 ```
-python convertFromRoot.py –i <eos_merged_testing_ttbar_directory>/test_samples.txt –o /data/<username>/<name_of_output_directory_to_store_testing_numpy_files> --testdatafor /data/<username>/<name_of_output_directory_to_store_training_numpy_files>/dataCollection.dc
+python convertFromRoot.py –i <eos_merged_testing_ttbar_directory>/samples.txt –o /data/<username>/<name_of_output_directory_to_store_testing_numpy_files> --testdatafor /data/<username>/<name_of_output_directory_to_store_training_numpy_files>/dataCollection.dc
 ```
 
 Now the data are ready for the training. We will use for this example the DeepJet/Train/DeepJetTrain\_PF.py script which uses the network with the name “Dense\_model\_broad” located in DeepJet/modules/DeepJet\_models.py. I use nohup to run in the background. The training took around 10 hours for 100 epochs. The output of the training is stored in the defined output directory <outdir\_train>.
