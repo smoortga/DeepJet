@@ -19,6 +19,7 @@ git cms-init
 clone and initialize the DeepNTuples repo
 ```
 git clone https://github.com/CMSDeepFlavour/DeepNTuples
+git cms-merge-topic -u cms-btv-pog:DeepFlavour-from-CMSSW_8_1_0
 cd DeepNTuples
 git submodule init
 git submodule update
