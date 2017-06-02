@@ -118,7 +118,7 @@ Now the data are ready for the training. We will use for this example the DeepJe
 
 ```
 cd ../Train
-nohup python –u DeepJetTrain_PF.py /data/<username>/<name_of_output_directory_to_store_training_numpy_files>/dataCollection.dc <outdir_train>
+nohup python –u DeepJetTrain_PF.py /data/<username>/<name_of_output_directory_to_store_training_numpy_files>/dataCollection.dc <outdir_train> &
 ```
 
 Finally after the training is done you can find the losses in <outdir\_train>/losses.log and the trained model with the lowest validation loss in <outdir\_train>/KERAS\_check\_best\_model.h5 
