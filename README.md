@@ -125,7 +125,7 @@ Finally after the training is done you can find the losses in <outdir\_train>/lo
 You can now run the testing on the pure ttbar with:
 
 ```
-python predict.py <name_of_output_directory_to_store_details_of_the_training>/KERAS_check_best_model.h5 /data/<username>/<name_of_output_directory_to_store_testing_numpy_files>/dataCollection.dc <outdir_test>
+predict.py <name_of_output_directory_to_store_details_of_the_training>/KERAS_check_best_model.h5 /data/<username>/<name_of_output_directory_to_store_testing_numpy_files>/dataCollection.dc <outdir_test>
 ```
 
 This produces in <outdir\_test> a file named tree_association.txt that can be used to produce ROC curves with the scripts that can be found in DeepJet/Train/Plotting/
