@@ -53,13 +53,13 @@ once all the samples have a sufficient amount of succeeded jobs, you can start m
 For merging the training sample in batches of 400000 jets per file to a directory on eos called ‘<eos_merged_training_directory>’ (put it next to the directories made for each sample individually), do:
 
 ```
-mergeSamples_parallel 400000 <eos_merged_training_directory> ntuple_*/train_val_samples.txt
+mergeSamples_parallel 400000 <eos_merged_training_directory> ntuple_*/output/train_val_samples.txt
 ```
 
 For merging the testing (ttbar) sample in batches of 400000 jets per file to a directory called ‘<eos_merged_testing_ttbar_directory>’, do:
 
 ```
-mergeSamples_parallel 400000 <eos_merged_testing_ttbar_directory> ntuple_ttbar_phase1/test_samples.txt
+mergeSamples_parallel 400000 <eos_merged_testing_ttbar_directory> ntuple_ttbar_phase1/output/test_samples.txt
 ```
 
 now everything should be safely stored to eos. You can check the root files manually to see if all went well.
