@@ -98,14 +98,14 @@ or if you are logged in to the GPUs you instead have to do:
 source gpu_env.sh
 ```
 
-Now convert training and testing files form .root to numpy format. It is the quickest to save these numpy files to the /data/ repo on the GPU clusters. You also need to specify a TrainData model that specifies which variables you want to use etc. Predefined examples can be found in DeepJet/modules/TrainData\_*. Let us use as an example “TrainData\_deepCSV\_PF” defined in DeepJet/modules/TrainData\_deepCSV\_PF.py.
+Now convert training and testing files form .root to numpy format. It is the quickest to save these numpy files to the /data/ repo on the GPU clusters. You also need to specify a TrainData model that specifies which variables you want to use etc. Predefined examples can be found in DeepJet/modules/TrainData\_*. Let us use as an example “TrainData\_deepFlavour\_FT” defined in DeepJet/modules/TrainData\_deepFlavour.py.
 
 ```
 ssh tlab-gpu-nv-05
 cd DeepJet/environment
 source gpu_env.sh
 cd ../convertFromRoot
-python convertFromRoot.py –i <eos_merged_training_directory>/samples.txt –o /data/<username>/<name_of_output_directory_to_store_numpy_files> -c TrainData_deepCSV_PF
+python convertFromRoot.py –i <eos_merged_training_directory>/samples.txt –o /data/<username>/<name_of_output_directory_to_store_numpy_files> -c TrainData_deepFlavour_FT
 ```
 
 Now also do it for the testing data. Notice that here you don’t need to specify the TrainData model (so you don't need to use -c), but instead you specify the “dataCollection.dc” file that was produced in your output directory of the previous step. Use for this purpose the --testdatafor argument:
